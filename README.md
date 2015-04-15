@@ -7,7 +7,7 @@
 <p>{</p>
 <p>host : "your SSDB server"; //default :localhost"</p>
 <p>port : 8888;  // default SSDB port 8888</p>
-<p>address : "vertx.ssdb" //the module will receive SSDB request at the address (default vertx.ssdb)</p>
+<p>address : "vertx.ssdb" //the module will receive SSDB request at (default vertx.ssdb)</p>
 <p>}</p>
 
 ### SSDB request format
@@ -17,11 +17,14 @@
 
 ### SSDB response format
 
->>Example : { "ok" : true, result : { "mykey1" : "myvalue1", "mykey2" : "myvalue2" }}
+<p>Example : { "ok" : true, result : { "mykey1" : "myvalue1", "mykey2" : "myvalue2" }}</p>
 
-### For the complete documentation of the SSDB request commands, see : [SSDB Commands](http://ssdb.io/docs/php/index.html)
+#### For the complete documentation of the SSDB requests commands, see : [SSDB Commands](http://ssdb.io/docs/php/index.html)
 
-### Test in your IDE (Idea, Eclipce i dunno) : run ModuleIntegrationTest.java
+#### Test in your IDE
+#### Idea/InteliJ   :  run ModuleIntegrationTest.java
+#### Eclipse        :  ?
 
-#### Code is not really commented, yet.More to come ......
+
+#### Code is not really commented, yet. More to come ......
 
