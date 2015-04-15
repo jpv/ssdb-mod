@@ -22,9 +22,9 @@
 #### For the complete documentation of the SSDB requests commands, see : [SSDB Commands](http://ssdb.io/docs/php/index.html)
 
 #### Test in your IDE
-#### Idea/InteliJ   :  run ModuleIntegrationTest.java
-#### Eclipse        :  ?
+<p>Idea/InteliJ   :  run ModuleIntegrationTest.java</p>
+<p>Eclipse        :  ?</p>
 
 
-#### Code is not really commented, yet. More to come ......
+<p>Code is not really commented, yet. More to come ......</p>
 
