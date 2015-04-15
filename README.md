@@ -1,8 +1,8 @@
-# [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/)
+## [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/)
 
-## Still in development. It's Java 8 baby !
+### Still in development : Java 8 !
 
-# Vertx Configuration
+### Vertx Configuration
 
 <p>{</p>
 <p>host : "your SSDB server"; //default :localhost"</p>
@@ -10,12 +10,12 @@
 <p>address : "vertx.ssdb" //the module will receive SSDB request at the address (default vertx.ssdb)</p>
 <p>}</p>
 
-# SSDB request format
+### SSDB request format
 
 <p>Example : { "command" : "multi_set", "params" : [ "mykey1", "myvalue1", "mykey2", "myvalue2 ] }</p>
 <p>Example : { "command" : "multi_get", "params" : [ "mykey1", "mykey2" ] }</p>
 
-# SSDB response format
+### SSDB response format
 
 >>Example : { "ok" : true, result : { "mykey1" : "myvalue1", "mykey2" : "myvalue2" }}
 
@@ -23,6 +23,5 @@
 
 ### Test in your IDE (Idea, Eclipce i dunno) : run ModuleIntegrationTest.java
 
-Code is not really commented, yet.
-More to come ......
+#### Code is not really commented, yet.More to come ......
 
