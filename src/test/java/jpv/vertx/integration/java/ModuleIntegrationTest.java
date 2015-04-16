@@ -25,6 +25,7 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.testtools.TestVerticle;
 
+import java.nio.ByteBuffer;
 import java.util.Iterator;
 
 import static org.vertx.testtools.VertxAssert.*;
@@ -41,11 +42,11 @@ public class ModuleIntegrationTest extends TestVerticle {
 
     private static String[]  COMMANDTOSEND = {
 
-            "{ \"command\" : \"set\", \"params\" : [ \"key1\", \"value1\"] }",
-            "{ \"command\" : \"multi_set\", \"params\" : [ \"key2\", 99,\"key3\", 3.14, \"key4\", false] }",
+            "{ \"command\" : \"set\", \"params\" : [ \"key1\", 10] }",
+            "{ \"command\" : \"multi_set\", \"params\" : [ \"key2\", 10,\"key3\", 3.14, \"key4\", false] }",
             "{ \"command\" : \"get\", \"params\" : [ \"key1\" ]}" ,
-            "{ \"command\" : \"multi_get\", \"params\" : [ \"key1\", \"key2\",\"key3\" ] }",
-            "{ \"command\" : \"multi_del\", \"params\" : [ \"key1\", \"key2\",\"key3\" ] }",
+            "{ \"command\" : \"multi_get\", \"params\" : [ \"key1\", \"key2\",\"key3\",\"key4\" ] }",
+        //    "{ \"command\" : \"multi_del\", \"params\" : [ \"key1\", \"key2\",\"key3\" ] }",
 
             "{ \"command\" : \"hset\", \"params\" : [ \"hash\", \"key1\", \"value1\"] }",
             "{ \"command\" : \"multi_hset\", \"params\" : [ \"hash\",\"key2\", 99,\"key3\", 3.14, \"key4\", false] }",
@@ -56,22 +57,37 @@ public class ModuleIntegrationTest extends TestVerticle {
             "{ \"command\" : \"incr\", \"params\"  : [  \"key3\", 100 ] }",
             "{ \"command\" : \"hincr\", \"params\" : [  \"hash\",\"key3\", 100 ] }",
 
+            "{ \"command\" : \"scan\", \"params\" : [  \"key\",\"kez\" ,10 ] }",
+
 
     };
 
     public JsonObject decode(final JsonObject result) {
-        JsonObject out = result.getElement("result").asObject();
-        Iterator<String> it = out.getFieldNames().iterator();
-        String s;
+        JsonObject l = result.getElement("result").asObject();
+        Iterator<String> it = l.getFieldNames().iterator();
+        String k,v;
+        JsonObject j;
+        JsonObject out = new JsonObject();
+        byte[] b;
         while (it.hasNext()) {
-            s = it.next();
-            out.putString(s, new String(out.getBinary(s)));
+            k = it.next();
+            out.putElement(k, j = new JsonObject().putString("string", v = new String( b = l.getBinary(k))));
+            try {
+                j.putNumber("number", Double.valueOf(v));
+            }
+            catch (Exception e) {};
+            if (b.length == 1) {
+                if (b[0] == 1)
+                    j.putBoolean("boolean", true);
+                else if (b[0] == 0)
+                    j.putBoolean("boolean", false);
+            }
         }
-        System.out.println(result.encodePrettily());
-        return result;
+        return out;
     }
 
     public void send(final int m, final int n, final JsonObject dataToSend) {
+        container.logger().info("CLIENT SEND:[" + n + "/" + m + "] " + dataToSend.encodePrettily());
         vertx.eventBus().send("vertx.ssdb", dataToSend, new Handler<Message<JsonObject>>() {
             public void handle(Message<JsonObject> message) {
                 if (message.body().containsField("err")) {
@@ -80,7 +96,7 @@ public class ModuleIntegrationTest extends TestVerticle {
                 }
                 if (n==m)
                     testComplete();
-                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] " + decode(message.body()));
+                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] " + decode(message.body()).encodePrettily());
                 //.encodePrettily());
 
             }

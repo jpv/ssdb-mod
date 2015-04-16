@@ -1,9 +1,9 @@
 package jpv.vertx;
 
 import com.udpwork.ssdb.Response;
-import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
+
 
 /**
  * Created by jpv on 10/04/2015.
@@ -26,20 +26,20 @@ public class SSDBCatalog {
             Object o;
             for (int i = 0; i < n; i++) {
                 o = params.get(i);
-                if (o instanceof String)
-                    bytes[i] = ((String) o).getBytes();
-                else if (o instanceof Integer)
-                    bytes[i] = new Buffer().appendInt((int) o).getBytes();
-                else if (o instanceof Double)
-                    bytes[i] = new Buffer().appendDouble((double) params.get(i)).getBytes();
-                else if (o instanceof Long)
-                    bytes[i] = new Buffer().appendLong((long) params.get(i)).getBytes();
-                else if (o instanceof Boolean)
-                    bytes[i] =   params.get(i) ? new byte[]{1} : new byte[]{0};
 
-                else
+                if (o instanceof String) {
+                    bytes[i] = ((String) o).getBytes();
+                }
+                else if (o instanceof Boolean) {
+                    bytes[i] = params.get(i) ? new byte[]{1} : new byte[]{0};
+                }
+                else if (o instanceof Character) {
                     bytes[i] = params.get(i);
-            }
+                }
+                else
+                    bytes[i] = String.valueOf(params.get(i)).getBytes();
+                }
+
             Response res = ssdb.ssdb.request(command, bytes);
             if (res.raw.size() == 2) {
                 result.putBinary("value", res.raw.get(1));
