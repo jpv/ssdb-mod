@@ -13,15 +13,15 @@
   "keywords": ["SSDB", "REDIS", "KV"],
   "homepage": "url to your project page",
 
-  "auto-redeploy": true
-
+  "auto-redeploy": true,
+  "decode" : true,
   // configuration
 
   //host => your SSDB host default is localhost
-  //host : "localhost";
+  "host" : "localhost",
 
   //port => port to connect to the SSDB host. Default is  8888
-  // port : 8888;
+  "port" : 8888
 
   //adress => the SSDB module will receive vertx messages. Default is "vertx.ssdb"
   //address : "vertx.ssdb

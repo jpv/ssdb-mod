@@ -25,7 +25,6 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.testtools.TestVerticle;
 
-import java.nio.ByteBuffer;
 import java.util.Iterator;
 
 import static org.vertx.testtools.VertxAssert.*;
@@ -46,44 +45,55 @@ public class ModuleIntegrationTest extends TestVerticle {
             "{ \"command\" : \"multi_set\", \"params\" : [ \"key2\", 10,\"key3\", 3.14, \"key4\", false] }",
             "{ \"command\" : \"get\", \"params\" : [ \"key1\" ]}" ,
             "{ \"command\" : \"multi_get\", \"params\" : [ \"key1\", \"key2\",\"key3\",\"key4\" ] }",
-        //    "{ \"command\" : \"multi_del\", \"params\" : [ \"key1\", \"key2\",\"key3\" ] }",
+            "{ \"command\" : \"multi_del\", \"params\" : [ \"key1\", \"key2\",\"key3\" ] }",
+            "{ \"command\" : \"incr\", \"params\"  : [  \"key3\", 100 ] }",
+            "{ \"command\" : \"scan\", \"params\" : [  \"key\",\"kez\" ,10 ] }",
 
             "{ \"command\" : \"hset\", \"params\" : [ \"hash\", \"key1\", \"value1\"] }",
-            "{ \"command\" : \"multi_hset\", \"params\" : [ \"hash\",\"key2\", 99,\"key3\", 3.14, \"key4\", false] }",
+            "{ \"command\" : \"multi_hset\", \"params\" : [ \"hash\",\"key2\", 99,\"key3\", 3, \"key4\", false] }",
             "{ \"command\" : \"hget\", \"params\" : [ \"hash\",\"key1\" ]}" ,
             "{ \"command\" : \"multi_hget\", \"params\" : [ \"hash\",\"key1\", \"key2\",\"key3\" ] }",
-            "{ \"command\" : \"multi_hdel\", \"params\" : [ \"hash\", \"key2\",\"key3\" ] }",
+            "{ \"command\" : \"multi_hdel\", \"params\" : [ \"hash\", \"key2\" ] }",
+            "{ \"command\" : \"hscan\", \"params\" : [ \"hash\", \"key\",\"kez\" ,10 ] }",
+            "{ \"command\" : \"hincr\", \"params\" : [  \"hash\",\"key3\", \"100\" ] }",
+            "{ \"command\" : \"hget\", \"params\" : [  \"hash\",\"key3\" ] }",
 
-            "{ \"command\" : \"incr\", \"params\"  : [  \"key3\", 100 ] }",
-            "{ \"command\" : \"hincr\", \"params\" : [  \"hash\",\"key3\", 100 ] }",
+            "{ \"command\" : \"qpush\", \"params\" : [  \"q1\",\"q1\" ] }",
+            "{ \"command\" : \"qpush\", \"params\" : [  \"q2\",\"q2\" ] }",
+            "{ \"command\" : \"qpop\", \"params\" : [  \"q1\" ] }",
+            "{ \"command\" : \"qpop\", \"params\" : [  \"q2\" ] }",
+            "{ \"command\" : \"info\", \"params\" : [   ] }",
 
-            "{ \"command\" : \"scan\", \"params\" : [  \"key\",\"kez\" ,10 ] }",
 
 
     };
 
-    public JsonObject decode(final JsonObject result) {
-        JsonObject l = result.getElement("result").asObject();
-        Iterator<String> it = l.getFieldNames().iterator();
+    public JsonObject decode(final JsonObject in) {
+        JsonObject result = in.getElement("result").asObject();
+        Iterator<String> it = result.getFieldNames().iterator();
         String k,v;
-        JsonObject j;
-        JsonObject out = new JsonObject();
         byte[] b;
         while (it.hasNext()) {
             k = it.next();
-            out.putElement(k, j = new JsonObject().putString("string", v = new String( b = l.getBinary(k))));
-            try {
-                j.putNumber("number", Double.valueOf(v));
-            }
-            catch (Exception e) {};
+            v = new String( b = result.getBinary(k));
             if (b.length == 1) {
-                if (b[0] == 1)
-                    j.putBoolean("boolean", true);
-                else if (b[0] == 0)
-                    j.putBoolean("boolean", false);
+                if (b[0] == 1) {
+                    result.putBoolean(k, true);
+                    continue;
+                }
+                if (b[0] == 0) {
+                    result.putBoolean(k, false);
+                    continue;
+                }
+            }
+            try {
+                result.putNumber(k, Double.valueOf(v));
+            }
+            catch (Exception e) {
+                result.putString(k, v );
             }
         }
-        return out;
+        return in;
     }
 
     public void send(final int m, final int n, final JsonObject dataToSend) {
@@ -96,9 +106,9 @@ public class ModuleIntegrationTest extends TestVerticle {
                 }
                 if (n==m)
                     testComplete();
-                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] " + decode(message.body()).encodePrettily());
-                //.encodePrettily());
-
+                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] \n"
+                         + COMMANDTOSEND[n-1]
+                        + "\n"   + decode(message.body()).encodePrettily());
             }
         });
     }

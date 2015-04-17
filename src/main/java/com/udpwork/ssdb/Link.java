@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 public class Link {
@@ -34,9 +34,7 @@ public class Link {
 
 	public Response request(String cmd, byte[]...params) throws Exception{
 		ArrayList<byte[]> list = new ArrayList<byte[]>();
-		for(byte[] s : params){
-			list.add(s);
-		}
+		Collections.addAll(list, params);
 		return this.request(cmd, list);
 	}
 	

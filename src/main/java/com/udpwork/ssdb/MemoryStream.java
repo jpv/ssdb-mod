@@ -29,8 +29,7 @@ public class MemoryStream {
 	}
 	
 	public byte[] toArray(){
-		byte[] ret = Arrays.copyOfRange(buf, data, data + size);
-		return ret;
+		return  Arrays.copyOfRange(buf, data, data + size);
 	}
 
 	public static String repr(byte[] bs){

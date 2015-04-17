@@ -23,35 +23,64 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 
+import java.util.Iterator;
+
 
 /*
 This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
  */
 public class SSDBVerticle extends Verticle {
 
-  private String host;
-  private String address;
-  private int port;
   protected Link ssdb;
-  protected SSDBVerticle _this;
+  private SSDBVerticle _this;
+
+  public JsonObject decode(final JsonObject in) {
+    JsonObject result = in.getElement("result").asObject();
+    Iterator<String> it = result.getFieldNames().iterator();
+    String k,v;
+    byte[] b;
+    while (it.hasNext()) {
+      k = it.next();
+      v = new String( b = result.getBinary(k));
+      if (b.length == 1) {
+        if (b[0] == 1) {
+          result.putBoolean(k, true);
+          continue;
+        }
+        if (b[0] == 0) {
+          result.putBoolean(k, false);
+          continue;
+        }
+      }
+      try {
+        result.putNumber(k, Double.valueOf(v));
+      }
+      catch (Exception e) {
+        result.putString(k, v );
+      }
+    }
+    return in;
+  }
 
   public void start() {
 
     final JsonObject config = container.config();
-    port    = config.getInteger("port", 8888);
-    host    = config.getString("host", "localhost");
-    address = config.getString("address", "vertx.ssdb");
+    final int port = config.getInteger("port", 8888);
+    final String host = config.getString("host", "localhost");
+    final String address = config.getString("address", "vertx.ssdb");
+    final boolean dodecode = config.getBoolean("decode",false);
     _this = this;
     try {
-      ssdb    = new Link(host,8888);
-      container.logger().info("Connected to host :"+host+":"+port);
+      ssdb    = new Link(host,port);
+      container.logger().info("Connected to host :"+ host +":"+ port+ " decode:"+dodecode);
 
       vertx.eventBus().registerHandler(address, new Handler<Message<JsonObject>>() {
         @Override
         public void handle(Message<JsonObject> message) {
-          container.logger().info("MODULE RECEIVED:"+message.body().encodePrettily());
+          //container.logger().info("MODULE RECEIVED:"+message.body().encodePrettily());
           JsonObject response = SSDBCatalog.exec(_this,message.body());
-          message.reply(response);
+          //container.logger().info("MODULE SEND:"+ decode(response).encodePrettily());
+          message.reply(dodecode ? decode(response) : response);
         }
       });
 
@@ -59,8 +88,8 @@ public class SSDBVerticle extends Verticle {
       e.printStackTrace();
       container.logger().fatal("Error on SSDB host connection..");
 
-    }
 
+    }
   }
 
   public void stop() {

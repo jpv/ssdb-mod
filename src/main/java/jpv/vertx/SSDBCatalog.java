@@ -5,28 +5,27 @@ import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 
 
+
 /**
  * Created by jpv on 10/04/2015.
  */
-public class SSDBCatalog {
+class SSDBCatalog {
 
 
-    public final static JsonObject exec(final SSDBVerticle ssdb, final JsonObject messageBody) {
+    public static JsonObject exec(final SSDBVerticle ssdb, final JsonObject messageBody) {
 
         final String command = messageBody.getString("command");
         final JsonObject out = new JsonObject();
         final JsonObject result = new JsonObject();
-        out.putObject("result", result);
         final JsonArray params = messageBody.getArray("params");
         final int n = (params == null) ? 0 : params.size();
         int ok = 0;
-        try {
-            final byte[][] bytes = new byte[n][];
-            JsonObject json;
+        final byte[][] bytes = new byte[n][];
+        out.putObject("result", result);
             Object o;
+        try {
             for (int i = 0; i < n; i++) {
                 o = params.get(i);
-
                 if (o instanceof String) {
                     bytes[i] = ((String) o).getBytes();
                 }
@@ -37,8 +36,9 @@ public class SSDBCatalog {
                     bytes[i] = params.get(i);
                 }
                 else
-                    bytes[i] = String.valueOf(params.get(i)).getBytes();
-                }
+                    bytes[i] = String.valueOf(params.get(i)).getBytes(); //pas terrible mon gars
+
+            }
 
             Response res = ssdb.ssdb.request(command, bytes);
             if (res.raw.size() == 2) {

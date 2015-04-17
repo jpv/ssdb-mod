@@ -132,7 +132,7 @@ public class SSDB{
 		if(resp.raw.size() != 2){
 			throw new Exception("Invalid response");
 		}
-		long ret = 0;
+		long ret;
 		ret = Long.parseLong(new String(resp.raw.get(1)));
 		return ret;
 	}
@@ -236,7 +236,7 @@ public class SSDB{
 		if(resp.raw.size() != 2){
 			throw new Exception("Invalid response");
 		}
-		long ret = 0;
+		long ret;
 		ret = Long.parseLong(new String(resp.raw.get(1)));
 		return ret;
 	}
