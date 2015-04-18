@@ -1,8 +1,8 @@
-## [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/)
+### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/)
 
-### Still in development : Java 8 !
+#### Still in development : Java 8 !
 
-### Vertx Configuration
+#### Vertx Configuration
 
 <p>{</p>
 <p>host>:>"your SSDB server"; //default :localhost"</p>
@@ -11,13 +11,13 @@
 <p>decode>:>true // default : false
 <p>}</p>
 
-### SSDB request format
+#### SSDB request format
 
 
 <p>Example : { "command" : "multi_set", "params" : [ "mykey1", "myvalue1", "mykey2", 10 ] }</p>
 <p>Example : { "command" : "multi_get", "params" : [ "mykey1", "mykey2" ] }</p>
 
-### SSDB response format
+#### SSDB response format
 
 if decode==true
 <p>Example : { "ok" : true, result : { "mykey1" : "value1", "mykey2" : 10 }}</p>
