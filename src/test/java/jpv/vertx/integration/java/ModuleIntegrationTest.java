@@ -40,7 +40,7 @@ import static org.vertx.testtools.VertxAssert.*;
 public class ModuleIntegrationTest extends TestVerticle {
 
     private static String[]  COMMANDTOSEND = {
-
+/*
             "{ \"command\" : \"set\", \"params\" : [ \"key1\", 10] }",
             "{ \"command\" : \"multi_set\", \"params\" : [ \"key2\", 10,\"key3\", 3.14, \"key4\", false] }",
             "{ \"command\" : \"get\", \"params\" : [ \"key1\" ]}" ,
@@ -63,7 +63,9 @@ public class ModuleIntegrationTest extends TestVerticle {
             "{ \"command\" : \"qpop\", \"params\" : [  \"q1\" ] }",
             "{ \"command\" : \"qpop\", \"params\" : [  \"q2\" ] }",
             "{ \"command\" : \"info\", \"params\" : [   ] }",
-
+*/
+            "{ \"command\" : \"multi_set\", \"params\" : [ \"key1\", \"value1\",\"key2\", 10] }",
+            "{ \"command\" : \"multi_get\", \"params\" : [ \"key1\",\"key2\"] }",
 
 
     };
@@ -104,11 +106,12 @@ public class ModuleIntegrationTest extends TestVerticle {
                     container.logger().fatal("Error on "+ dataToSend);
                     assertEquals(true, false);
                 }
+                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] \n"
+                        + COMMANDTOSEND[n-1]
+                        + "\n"   + message.body().encodePrettily());
                 if (n==m)
                     testComplete();
-                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] \n"
-                         + COMMANDTOSEND[n-1]
-                        + "\n"   + decode(message.body()).encodePrettily());
+
             }
         });
     }

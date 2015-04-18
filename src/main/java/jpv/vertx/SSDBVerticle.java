@@ -65,6 +65,7 @@ public class SSDBVerticle extends Verticle {
   public void start() {
 
     final JsonObject config = container.config();
+    container.logger().info(config.encodePrettily());
     final int port = config.getInteger("port", 8888);
     final String host = config.getString("host", "localhost");
     final String address = config.getString("address", "vertx.ssdb");
@@ -79,8 +80,13 @@ public class SSDBVerticle extends Verticle {
         public void handle(Message<JsonObject> message) {
           //container.logger().info("MODULE RECEIVED:"+message.body().encodePrettily());
           JsonObject response = SSDBCatalog.exec(_this,message.body());
-          //container.logger().info("MODULE SEND:"+ decode(response).encodePrettily());
-          message.reply(dodecode ? decode(response) : response);
+          if (dodecode) {
+            container.logger().info("decode");
+            decode(response);
+          }
+          container.logger().info("MODULE SEND:"+ response.encodePrettily());
+          message.reply(response);
+
         }
       });
 
