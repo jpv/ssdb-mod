@@ -5,9 +5,8 @@ import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 
 
-
-/**
- * Created by jpv on 10/04/2015.
+/*
+ * @author <a href="https://twitter.com/JPVay">@JPVay</a>
  */
 class SSDBCatalog {
 
@@ -41,12 +40,21 @@ class SSDBCatalog {
             }
 
             Response res = ssdb.ssdb.request(command, bytes);
-            if (res.raw.size() == 2) {
+        //    if (res.not_found()) {
+       //         out.putBoolean("notfound",true);
+       //     }
+            //else
+            if (!res.ok() && !res.not_found()) {
+                out.putBoolean("err",true);
+                out.putString("msg",new String(res.raw.get(1)));
+            }
+            else if (res.raw.size() == 2) {
                 result.putBinary("value", res.raw.get(1));
                 ok++;
 
             }
             else for (int i = 1; i < res.raw.size() - 1; i += 2) {
+
                 result.putBinary(new String(res.raw.get(i)), res.raw.get(i + 1));
                 ok++;
             }

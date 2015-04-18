@@ -35,3 +35,15 @@ if decode==false
 
 <p>Code is not really commented, yet. More to come ......</p>
 
+#### Java usage for vertx app 
+
+JsonObject data = new JsonObject("{ \"command\" : \"get\" , \"mykey\""}
+vertx.eventBus().send("vertx.ssdb", dataToSend, new Handler<Message<JsonObject>>() {
+            public void handle(Message<JsonObject> message) {
+                if (message.body().containsField("err")) {
+                    container.logger().fatal("Error on "+ dataToSend);
+                    assertEquals(true, false);
+                }
+                container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] \n"
+                        + COMMANDTOSEND[n-1]
+                        + "\n"   + message.body().encodePrettily());
