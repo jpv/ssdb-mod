@@ -9,7 +9,7 @@
 #### SSDB request format
     Example: {"command":"multi_set", "params":[ "mykey1", "myvalue1", "mykey2", 10 ] }  
     Example: {"command":"multi_get", "params":[ "mykey1", "mykey2" ] }
-#### SSDB response format  
+#### SSDB response format (multi_get) 
     if decode==true  
         Example : { "ok":true, result:{"mykey1" : "value1", "mykey2" : 10 } }  
     if decode==false  
@@ -21,8 +21,8 @@ If you need fast "fire & forget" (UDP like) set/put command (with no need to che
 You will never receive a response from the module, even for a get !   
 #### For the complete documentation of the SSDB requests commands, see : [SSDB Commands](http://ssdb.io/docs/php/index.html)
 #### Test in your IDE
->>>Idea/InteliJ   :  run ModuleIntegrationTest.java  
->>>Eclipse        :  ?  
+>Idea/InteliJ   :  run ModuleIntegrationTest.java  
+>Eclipse        :  ?  
 Code is not really commented, yet. More to come ......  
 
 #### Java usage for vertx app 
