@@ -1,5 +1,4 @@
-### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/)
-##### Java 8.
+#### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/) (Java 8).
 ##### Vertx Configuration
 >{
 >>host: "your SSDB server",     //default :localhost"  
@@ -10,11 +9,11 @@
 #### SSDB request format
 Example : { "command" : "multi_set", "params" : [ "mykey1", "myvalue1", "mykey2", 10 ] }  
 Example : { "command" : "multi_get", "params" : [ "mykey1", "mykey2" ] }
-#### SSDB response format
+#### SSDB response format  
 if decode==true  
->>Example : { "ok" : true, result : { "mykey1" : "value1", "mykey2" : 10 } }  
+Example : { "ok" : true, result : { "mykey1" : "value1", "mykey2" : 10 } }  
 if decode==false  
->>Example : { "ok" : true, result : { "mykey1" : "dmFsdWUx", "mykey2" : "MTA=" }}
+Example : { "ok" : true, result : { "mykey1" : "dmFsdWUx", "mykey2" : "MTA=" }}
 #### Special "norep" request parameter
 If you need fast "fire & forget" (UDP like) set/put command (with no need to check the reply), use a "norep" (boolean) parameter in your JSON request.  
 >>Example : { "norep":true,"command" : "multi_set", "params" : [ "mykey1", "myvalue1", "mykey2", 10 ] }  
@@ -31,6 +30,7 @@ Code is not really commented, yet. More to come ......
                 if (message.body().containsField("err")) {  
                     container.logger().fatal("Error on "+ data);  
                 }  
-                container.logger().info("CLIENT RECEIVED:" + message.body().encodePrettily());
+                container.logger().info("CLIENT RECEIVED:" 
+                + message.body().encodePrettily());
              }
     }             
