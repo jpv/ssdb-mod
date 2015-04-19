@@ -2,7 +2,6 @@ package jpv.vertx.integration.java;
 /*
  * @author <a href="https://twitter.com/JPVay">@JPVay</a>
  */
-
 import org.junit.Test;
 import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.AsyncResultHandler;
@@ -11,8 +10,6 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.testtools.TestVerticle;
 
-import java.util.Iterator;
-
 import static org.vertx.testtools.VertxAssert.*;
 
 public class ModuleIntegrationTest extends TestVerticle {
@@ -20,7 +17,7 @@ public class ModuleIntegrationTest extends TestVerticle {
 
     //some SSDB commands to test
     private static String[]  COMMANDTOSEND = {
-/*
+
             "{ \"command\" : \"set\", \"params\" : [ \"key1\", 100000.000002] }",
             "{ \"command\" : \"multi_set\", \"params\" : [ \"key2\", 10,\"key3\", 3.14, \"key4\", false] }",
             "{ \"command\" : \"get\", \"params\" : [ \"key1\" ]}" ,
@@ -45,7 +42,7 @@ public class ModuleIntegrationTest extends TestVerticle {
             "{ \"command\" : \"info\", \"params\" : [   ] }",
 
             "{ \"command\" : \"multi_set\", \"params\" : [ \"key1\", \"value1\",\"key2\", 10] }",
-     */
+
             "{ \"command\" : \"multi_get\", \"params\" : [ \"key100\",\"key2\"] }",
 
             "{ \"norep\":false, \"command\" : \"get\", \"params\" : [ \"key100\"] }"
@@ -60,13 +57,13 @@ public class ModuleIntegrationTest extends TestVerticle {
             public void handle(Message<JsonObject> message) {
                 if (message.body().containsField("err")) {
                     container.logger().fatal("Error on "+ dataToSend);
-    //                assertEquals(true, false);
+                    assertEquals(true, false);
                 }
                 container.logger().info("CLIENT RECEIVED:[" + n + "/" + m + "] \n"
-                        + COMMANDTOSEND[n-1]
-                        + "\n"   + message.body().encodePrettily());
-               // if (n==m)
-               //     testComplete();
+                        + COMMANDTOSEND[n - 1]
+                        + "\n" + message.body().encodePrettily());
+                 if (n==m)
+                     testComplete();
 
             }
         });

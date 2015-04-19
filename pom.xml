@@ -6,7 +6,7 @@
   <groupId>jpv.vertx</groupId>
   <artifactId>ssdb-mod</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>1.0</version>
   <name>Project - ssdb-mod</name>
   <url>http://maven.apache.org</url>
 
