@@ -23,7 +23,8 @@ You will never receive a response from the module, even for a get !
 #### Test in your IDE
 >>>Idea/InteliJ   :  run ModuleIntegrationTest.java  
 >>>Eclipse        :  ?  
-Code is not really commented, yet. More to come ......
+Code is not really commented, yet. More to come ......  
+
 #### Java usage for vertx app 
     JsonObject data = new JsonObject("{ \"command\" : \"get\" , \"mykey\""}  
     vertx.eventBus().send("vertx.ssdb", data, new Handler<Message<JsonObject>>() {  
