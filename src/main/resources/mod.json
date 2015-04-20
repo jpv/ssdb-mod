@@ -2,15 +2,14 @@
 
   "main":"jpv.vertx.SSDBVerticle",
 
-  "description":"A vertx module for the fast and light SSDB K/V store (redis like) see SSDB on github",
-  "licenses": ["The Apache Software License Version 2.0"],
-  "author": "Jean Philippe VAY",
-
+  "description":"Module for SSDB (K/V store, redis like)",
+  "licenses": [" New BSD License"],
+  "author": "JPVay",
+  "repository": "bintray",
   "developers": ["@JPVay"],
-  "keywords": ["SSDB", "REDIS", "KV"],
-  "homepage": "url to your project page",
+  "keywords": ["SSDB", "REDIS", "K/V"],
+  "homepage": "https://github.com/jpv/ssdb-mod",
 
-  "auto-redeploy": true,
   "auto-redeploy": true,
   "decode" : true,
   "host" : "localhost",
