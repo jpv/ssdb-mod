@@ -17,7 +17,7 @@
 #### Special "norep" request parameter
 If you need fast "fire & forget" (UDP like) set/put command (with no need to check the reply), use a "norep" (boolean) parameter in your JSON request.
 
-    Example:{"norep":true,"command":"multi_get","params":["mykey1","myvalue1"]}  
+    Example:{"norep":true,"command":"multi_set","params":["mykey1","myvalue1"]}  
 You will never receive a response from the module, even for a get !   
 #### For the complete documentation of the SSDB requests commands, see : [SSDB Commands](http://ssdb.io/docs/php/index.html)
 #### Test in your IDE
