@@ -1,4 +1,4 @@
-#### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/) (Java 8).
+#### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/).
 ##### Vertx Configuration
     {
         host: "your SSDB server",     //default :localhost"  
