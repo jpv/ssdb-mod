@@ -1,0 +1,19 @@
+{
+
+  "main":"jpv.vertx.SSDBVerticle",
+
+  "description":"Module for SSDB (K/V store, redis like)",
+  "licenses": [" New BSD License"],
+  "author": "JPVay",
+  "repository": "bintray",
+  "developers": ["@JPVay"],
+  "keywords": ["SSDB", "REDIS", "K/V"],
+  "homepage": "https://github.com/jpv/ssdb-mod",
+
+  "auto-redeploy": true,
+  "decode" : true,
+  "host" : "localhost",
+  "port" : 8888,
+  "address" : "vertx.ssdb"
+
+}
