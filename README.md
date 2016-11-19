@@ -1,3 +1,5 @@
+## Actually, you can consider this module as obsolete. 
+
 #### [VERTX](http://vertx.io/) module pour [SSDB](http://ssdb.io/).
 ##### Vertx Configuration
     {
